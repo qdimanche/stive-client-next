@@ -24,7 +24,7 @@ const Counter = () => {
 			}>
 				<AiOutlineMinus size={30}/>
 			</button>
-			<input type="text" className={'bg-black/10 p-3 rounded-md w-full text-center'} value={counter}/>
+			<input type="text" className={'bg-black/5 p-3 rounded-md w-full text-center'} value={counter}/>
 		</div>
 	);
 };
