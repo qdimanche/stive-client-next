@@ -4,11 +4,14 @@ import Image from "next/image";
 import Button from "@/components/UI/Button";
 import {useCart} from "react-use-cart";
 import Counter from "@/components/UI/Counter";
+import axios from "axios";
+import {apiBackend} from "../../../lib/helper";
+import {useRouter} from "next/router";
 
 function Review(props) {
 
 	const { items, onChangeQuantity } = props;
-	const { removeItem } = useCart()
+	const { removeItem} = useCart()
 
 	return (<div className={' flex flex-col p-8 border border-black/20 rounded-md'}>
 		<h1 className={'font-semibold text-2xl'}>Examiner les détails et l&apos;expédition</h1>
@@ -36,13 +39,14 @@ function Review(props) {
 
 }
 
-const Panier = () => {
+const Index = () => {
 
-	const { items, updateItemQuantity, isEmpty: isEmptyC, cartTotal } = useCart()
+	const { items, updateItemQuantity, isEmpty: isEmptyC, cartTotal, emptyCart } = useCart()
 	const [isEmpty, setIsEmpty] = useState(true);
 	const [carts, setCarts] = useState([]);
 	const [email, setEmail] = useState("");
 	const [address, setAddress] = useState("");
+	const router = useRouter();
 
 	useEffect(() => {
 		console.log(isEmptyC)
@@ -61,6 +65,19 @@ const Panier = () => {
 		}
 	}
 
+	const handleSubmit = async () => {
+		const send = {
+			data: items?.map((e) => ({ id: e.id, quantity: e.quantity })),
+			email,
+			address
+		}
+		const data = await axios.post(apiBackend + '/order', send);
+		if (data.data) {
+			emptyCart()
+			await router.push('/panier/merci?id=' + data.data?.id)
+		}
+	}
+
 	return (<Format>
 		<div className={'grid lg:grid-cols-[2fr_1fr] lg:gap-12 gap-6 mt-28 mb-6 '}>
 			{isEmpty ? (
@@ -73,7 +90,7 @@ const Panier = () => {
 					<div className={' flex flex-col p-8 border border-black/20 rounded-md'}>
 						<h2 className={'font-semibold text-2xl mb-8'}>Détails de paiement</h2>
 
-						<form>
+
 							<fieldset>
 								<div className={'space-y-6 mt-8'}>
 									<div>
@@ -90,10 +107,10 @@ const Panier = () => {
 								</div>
 
 								<div className={'mt-8'}>
-									<Button variant={"black"} text={"Commander"} type="submit"/>
+									<Button onClick={handleSubmit} variant={"black"} text={"Commander"} />
 								</div>
 							</fieldset>
-						</form>
+
 					</div>
 				</>
 			)}
@@ -103,4 +120,4 @@ const Panier = () => {
 	</Format>);
 };
 
-export default Panier;
+export default Index;
