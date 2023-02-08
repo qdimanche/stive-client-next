@@ -1,11 +1,11 @@
 import React from 'react';
 import Format from "@/layout/Format";
 import Image from "next/image";
-import Button from "@/components /UI/Button";
+import Button from "@/components/UI/Button";
 
 const Panier = () => {
 	return (<Format>
-		<div className={'grid lg:grid-cols-[2fr_1fr] lg:gap-12 gap-6 lg:mt-12 mb-6 '}>
+		<div className={'grid lg:grid-cols-[2fr_1fr] lg:gap-12 gap-6 mt-28 mb-6 '}>
 			<div>
 				<Review/>
 				<Delivery/>

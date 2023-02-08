@@ -2,7 +2,7 @@ import Logo from '../../assets/images/logo.png'
 import Image from "next/image";
 import {CiShoppingCart, CiUser} from 'react-icons/ci';
 import Link from "next/link";
-import Burger from "@/components /Nav/Burger";
+import Burger from "@/components/Nav/Burger";
 import {useEffect, useState} from "react";
 
 
@@ -15,21 +15,11 @@ const Navbar = () => {
 		click ? document.body.style.overflow = "hidden" : document.body.style.overflow = "visible";
 	}, [click])
 	
-	return (<div className={'py-6 flex justify-between lg:gap-10 gap-4 items-center'}>
+	return (<div className={'fixed py-6 flex justify-between lg:gap-10 gap-4 items-center bg-white z-[999] max-w-[1024px] w-full top-0'}>
 		
 		<Link href={"/"}>
 			<Image src={Logo} width={130} height={50} alt={"Logo Stive"}/>
 		</Link>
-		
-		<div className={click?'h-screen w-screen bg-white fixed left-0 top-0 right-0 bottom-0 z-[99]':'lg:block hidden'}>
-			<ul className={'md:flex md:flex-row flex-col md:space-x-6 md:space-y-0 space-y-6 md:static md:transform-none absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 ' }>
-				<li>Catégories</li>
-				<li>Offres</li>
-				<li>Commandes</li>
-				<li className={'lg:hidden block'}>Profil</li>
-				<li className={'lg:hidden block'}>Panier</li>
-			</ul>
-		</div>
 		
 		<div className="">
 			<form className="">
@@ -57,8 +47,9 @@ const Navbar = () => {
 			</form>
 		</div>
 		<div className={'md:flex hidden space-x-6 items-center'}>
-			<CiUser size={30}/>
-			<CiShoppingCart size={30}/>
+			<Link href={'/panier'}>
+				<CiShoppingCart size={30}/>
+			</Link>
 		</div>
 		<div className={'z-[900] w-[2rem] md:hidden'} onClick={handleClick}>
 			{click ? (<Burger/>) : (<Burger/>)}
