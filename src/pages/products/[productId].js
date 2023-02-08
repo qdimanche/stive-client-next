@@ -94,15 +94,9 @@ function Product({name, description, productImages, id, price, category}) {
 
 		</div>
 		<div className={'flex flex-col space-y-6'}>
+			<p className={'text-underline'}>{category.name || ""}</p>
 			<h1>{name}</h1>
 			<p>{description}</p>
-			<div className={'flex space-x-1'}>
-				<BsStarFill/>
-				<BsStarFill/>
-				<BsStarFill/>
-				<BsStarFill/>
-				<BsStar/>
-			</div>
 			<div className={'w-1/4'}>
 				<Counter num={quantity} onChange={handleChangeQuantity} />
 			</div>

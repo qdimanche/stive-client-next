@@ -17,7 +17,6 @@ const ProductRecommandation = () => {
 
 	return (
 		<div className={''}>
-			<FilterBar/>
 			<h2 className={'lg:mt-14 mt-6 mb-10'}>Des produits rien que pour vous !</h2>
 
 			<div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-12 ">
@@ -64,13 +63,6 @@ const Product = ({data}) => {
 					<p className={'font-bold justify-self-end'}>{(price + "€") || "Aucun prix"}</p>
 				</div>
 				<p className={'text-sm'}>{category.name || ""}</p>
-				<div className={'flex space-x-1'}>
-					<BsStarFill/>
-					<BsStarFill/>
-					<BsStarFill/>
-					<BsStarFill/>
-					<BsStar/>
-				</div>
 				<Button variant={"black"} text={"Commander"}/>
 			</div>
 		</Link>

@@ -27,9 +27,13 @@ function Review(props) {
 						<span className={'font-bold text-2xl'}>{i?.name}</span>
 						<span className={'font-semibold'}>{i?.price}€</span>
 					</div>
-					<div className={'flex justify-between'}>
+					<div className={'flex flex-col w-1/3 space-y-6'}>
 						<span>Catégorie : {i?.category}</span>
-						<span>Quantité : <Counter num={i?.quantity} onChange={(d) => onChangeQuantity?.(i?.id, d)} /></span>
+						<div className={'space-y-3'}>
+							<span className={''}>Quantité :</span>
+							<Counter num={i?.quantity} onChange={(d) => onChangeQuantity?.(i?.id, d)} />
+						</div>
+						
 					</div>
 				</div>
 				<Button onClick={() => removeItem(i?.id)} text={"Supprimer"} />
@@ -88,7 +92,7 @@ const Index = () => {
 						<Review items={carts} onChangeQuantity={handleChangeQuantity}/>
 					</div>
 					<div className={' flex flex-col p-8 border border-black/20 rounded-md'}>
-						<h2 className={'font-semibold text-2xl mb-8'}>Détails de paiement</h2>
+						<h2 className={'font-semibold text-2xl'}>Détails de paiement</h2>
 
 
 							<fieldset>
