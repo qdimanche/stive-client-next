@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Image from "next/image"
 import {BsStar, BsStarFill} from "react-icons/bs";
 import Button from "@/components/UI/Button";
@@ -15,14 +15,14 @@ import {useCart } from "react-use-cart";
 import {data} from "autoprefixer";
 
 const ProductId = ({fallback}) => {
-	
+
 	const router = useRouter()
 	const {productId} = router.query
 	const {data, isLoading, isError} = fetcher(`product/${productId}`);
-	
+
 	if (isLoading) return <Spinner></Spinner>
 	if (isError) return <Error></Error>
-	
+
 	return (
 		<SWRConfig value={ { fallback }}>
 			<Head>
@@ -30,31 +30,68 @@ const ProductId = ({fallback}) => {
 				<meta property="og:title" content="Athletid"/>
 				<meta property="og:type" content="article"/>
 			</Head>
-			
+
 			<Format>
 				<Product {...data}></Product>
 			</Format>
-		
+
 		</SWRConfig>
 
-	
+
 	);
 };
 
 export default ProductId;
 
 
-function Product({name, description, productImages, id, price}) {
-	
-	const { addItem, items, removeItem } = useCart();
-	
+function Product({name, description, productImages, id, price, category}) {
+
+	const { addItem, items, removeItem, updateItemQuantity } = useCart();
+
+	const [quantity, setQuantity] = useState(1);
+
+	const handleChangeQuantity = (q) => {
+		if (q > 0) {
+			setQuantity(q);
+		}
+	}
+
+	const handleAddItem = () => {
+
+		const findItem = items.find((e) => e.id === id);
+
+		if (findItem) {
+			updateItemQuantity(id, findItem?.quantity + quantity);
+		} else {
+			const item = {
+				id: id,
+				name: name,
+				price: price,
+				category: category?.name,
+				image: productImages[0]?.url
+			}
+			addItem(item, quantity);
+		}
+	}
+
+	const displayDeleteButton = () => {
+		const findItem = items.find((e) => e.id === id);
+
+		if (findItem) {
+			return (
+				<Button onClick={() => removeItem(id)} text={"Supprimer"} />
+			)
+		}
+
+	}
+
 	return (<div className={'grid md:grid-cols-2 md:gap-12 gap-6 mt-40 '}>
 		<div className={'space-y-6'}>
 			<div className={"aspect-square relative rounded-md overflow-hidden"}>
 				<Image layout={"fill"} className={"object-cover"}
-				       src={productImages[0].url}/>
+				       src={productImages[0]?.url}/>
 			</div>
-		
+
 		</div>
 		<div className={'flex flex-col space-y-6'}>
 			<h1>{name}</h1>
@@ -67,30 +104,23 @@ function Product({name, description, productImages, id, price}) {
 				<BsStar/>
 			</div>
 			<div className={'w-1/4'}>
-				<Counter/>
+				<Counter num={quantity} onChange={handleChangeQuantity} />
 			</div>
-			
-			
+
+
 			<div className={"flex space-x-6"}>
-				<Button onClick={() => addItem({
-					id: 1 + items.length,
-					productId: id,
-					name: name,
-					price: price,
-					quantity: 23
-				})} variant={"black"} text={"Commander"}/>
-				{JSON.stringify(items)}
-				{items?.map((i) => <button onClick={() => removeItem(i.id)}>remove</button>)}
+				<Button onClick={handleAddItem} variant={"black"} text={"Commander"}/>
+				{displayDeleteButton()}
 			</div>
 		</div>
-	
+
 	</div>)
 }
 
 
 export async function getStaticProps({params}) {
 	const products = await getPost(params.productId);
-	
+
 	return {
 		props: {
 			fallback: {
@@ -109,7 +139,7 @@ export async function getStaticPaths() {
 			}
 		}
 	})
-	
+
 	return {
 		paths, fallback: false
 	}

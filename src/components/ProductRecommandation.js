@@ -10,16 +10,16 @@ import Link from "next/link";
 
 
 const ProductRecommandation = () => {
-	
+
 	const {data, isLoading, isError} = fetcher('product');
 	if (isLoading) return <Spinner></Spinner>
 	if (isError) return <Error></Error>
-	
+
 	return (
 		<div className={''}>
 			<FilterBar/>
 			<h2 className={'lg:mt-14 mt-6 mb-10'}>Des produits rien que pour vous !</h2>
-			
+
 			<div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-12 ">
 				{
 					data.map((value, index) => (
@@ -27,7 +27,7 @@ const ProductRecommandation = () => {
 					))
 				}
 			</div>
-		
+
 		</div>
 	);
 };
@@ -36,10 +36,10 @@ export default ProductRecommandation
 
 
 const Product = ({data}) => {
-	
+
 	const [isHover, setIsHover] = useState(false);
 	const {name, category, price, productImages, id} = data;
-	
+
 	return (
 		<Link href={`/products/${id}`}>
 			<div className={"flex flex-col space-y-4"}>
@@ -47,7 +47,7 @@ const Product = ({data}) => {
 					<Image
 						width={400}
 						height={400}
-						src={productImages[0].url}
+						src={productImages[0]?.url}
 						className={'object-cover aspect-square'} alt={""}/>
 					<div
 						className={'absolute top-3 right-3 bg-white rounded-[999px] p-2 overflow-hidden cursor-pointer'}
@@ -57,7 +57,7 @@ const Product = ({data}) => {
 								: <BsHeart color={"black"} size={20}/>
 						}
 					</div>
-				
+
 				</div>
 				<div className={'grid grid-cols-[2fr_1fr]'}>
 					<p className={'font-semibold'}>{name || ""}</p>

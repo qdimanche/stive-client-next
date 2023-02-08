@@ -3,9 +3,9 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 
 const Button = (props, text) => {
-	
+
 	const {variant} = props;
-	
+
 	return (<div>
 			<button onClick={props.onClick}>
 				<div
@@ -15,14 +15,16 @@ const Button = (props, text) => {
 					{props.text}
 				</div>
 			</button>
-		</div>
-	
+		</div> 
+
 	);
 };
 
 
 Button.propTypes = {
-	children: PropTypes.node, onClick: PropTypes.func, variant: PropTypes.oneOf(['white', 'default', 'black', 'red'])
+	children: PropTypes.node,
+	onClick: PropTypes.func,
+	variant: PropTypes.oneOf(['white', 'default', 'black', 'red'])
 };
 
 export default Button;
