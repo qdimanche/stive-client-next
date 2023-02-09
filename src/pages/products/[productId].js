@@ -105,7 +105,9 @@ function Product({name, description, productImages, id, price, category, stock})
 
 
 			<div className={"flex space-x-6"}>
-				<Button onClick={handleAddItem} variant={"black"} text={"Commander"}/>
+				{stock > 0 &&
+					<Button onClick={handleAddItem} variant={"black"} text={"Commander"}/>
+				}
 				{displayDeleteButton()}
 			</div>
 		</div>
