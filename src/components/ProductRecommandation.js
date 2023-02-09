@@ -34,7 +34,7 @@ const ProductRecommandation = () => {
 export default ProductRecommandation
 
 
-const Product = ({data}) => {
+export const Product = ({data}) => {
 
 	const [isHover, setIsHover] = useState(false);
 	const {name, category, price, productImages, id} = data;
@@ -46,7 +46,7 @@ const Product = ({data}) => {
 					<Image
 						width={400}
 						height={400}
-						src={productImages[0]?.url}
+						src={productImages?.[0]?.url}
 						className={'object-cover aspect-square'} alt={""}/>
 					<div
 						className={'absolute top-3 right-3 bg-white rounded-[999px] p-2 overflow-hidden cursor-pointer'}
@@ -62,7 +62,7 @@ const Product = ({data}) => {
 					<p className={'font-semibold'}>{name || ""}</p>
 					<p className={'font-bold justify-self-end'}>{(price + "€") || "Aucun prix"}</p>
 				</div>
-				<p className={'text-sm'}>{category.name || ""}</p>
+				<p className={'text-sm'}>{category?.name || ""}</p>
 				<Button variant={"black"} text={"Commander"}/>
 			</div>
 		</Link>

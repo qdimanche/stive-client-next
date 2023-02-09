@@ -19,6 +19,7 @@ const ProductId = ({fallback}) => {
 	const router = useRouter()
 	const {productId} = router.query
 	const {data, isLoading, isError} = fetcher(`product/${productId}`);
+	const {data: dataStock } = fetcher(`stock/product/${productId}/sum`);
 
 	if (isLoading) return <Spinner></Spinner>
 	if (isError) return <Error></Error>
@@ -32,7 +33,7 @@ const ProductId = ({fallback}) => {
 			</Head>
 
 			<Format>
-				<Product {...data}></Product>
+				<Product {...data} stock={dataStock}></Product>
 			</Format>
 
 		</SWRConfig>
@@ -44,7 +45,7 @@ const ProductId = ({fallback}) => {
 export default ProductId;
 
 
-function Product({name, description, productImages, id, price, category}) {
+function Product({name, description, productImages, id, price, category, stock}) {
 
 	const { addItem, items, removeItem, updateItemQuantity } = useCart();
 
@@ -100,6 +101,7 @@ function Product({name, description, productImages, id, price, category}) {
 			<div className={'w-1/4'}>
 				<Counter num={quantity} onChange={handleChangeQuantity} />
 			</div>
+			<div>{stock <= 0 ? "Ce produit n'est plus disponible" : "Ce produit est en stock"}</div>
 
 
 			<div className={"flex space-x-6"}>

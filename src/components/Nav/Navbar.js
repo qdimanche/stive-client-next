@@ -4,25 +4,32 @@ import {CiShoppingCart, CiUser} from 'react-icons/ci';
 import Link from "next/link";
 import Burger from "@/components/Nav/Burger";
 import {useEffect, useState} from "react";
-
+import {useRouter} from "next/router";
 
 const Navbar = () => {
-	
+
+	const router = useRouter();
 	const [click, setClick] = useState(false);
 	const handleClick = () => setClick(!click);
-	
+	const [input, setInput] = useState("");
+
 	useEffect(() => {
 		click ? document.body.style.overflow = "hidden" : document.body.style.overflow = "visible";
 	}, [click])
-	
+
+	const handleSearch = (e) => {
+		e.preventDefault();
+		router.push('/search?q=' + input)
+	}
+
 	return (<div className={'fixed py-6 flex justify-between lg:gap-10 gap-4 items-center bg-white z-[999] max-w-[1024px] w-full top-0'}>
-		
+
 		<Link href={"/"}>
 			<Image src={Logo} width={130} height={50} alt={"Logo Stive"}/>
 		</Link>
-		
+
 		<div className="">
-			<form className="">
+			<form className="" onSubmit={handleSearch}>
 				<div className="relative">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -39,6 +46,8 @@ const Navbar = () => {
 						/>
 					</svg>
 					<input
+						value={input}
+						onChange={(e) => setInput(e.currentTarget.value)}
 						type="text"
 						placeholder="Rechercher"
 						className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
@@ -54,8 +63,8 @@ const Navbar = () => {
 		<div className={'z-[900] w-[2rem] md:hidden'} onClick={handleClick}>
 			{click ? (<Burger/>) : (<Burger/>)}
 		</div>
-	
-	
+
+
 	</div>);
 };
 
