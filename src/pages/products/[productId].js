@@ -101,11 +101,11 @@ function Product({name, description, productImages, id, price, category, stock})
 			<div className={'w-1/4'}>
 				<Counter num={quantity} onChange={handleChangeQuantity} />
 			</div>
-			<div>{stock <= 0 ? "Ce produit n'est plus disponible" : "Ce produit est en stock"}</div>
+			<div>{stock <= 0 || stock < quantity ? "Ce produit n'est plus disponible" : "Ce produit est en stock"}</div>
 
 
 			<div className={"flex space-x-6"}>
-				{stock > 0 &&
+				{stock > 0 && stock >= quantity &&
 					<Button onClick={handleAddItem} variant={"black"} text={"Commander"}/>
 				}
 				{displayDeleteButton()}
